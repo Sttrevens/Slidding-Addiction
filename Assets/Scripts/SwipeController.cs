@@ -1,67 +1,52 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class SwipeController : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+public class SwipeController : MonoBehaviour
 {
     private Vector2 startTouchPosition;
-    private Vector2 endTouchPosition;
-    private float dragThreshold = 30.0f; // Minimum distance for a successful swipe
-    public VideoManager videoManager; // Reference to your VideoManager
+    private Vector2 currentSwipe;
+    private bool isSwiping = false;
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        // Record start position when touch begins
-        startTouchPosition = eventData.position;
-        Debug.Log("Start touch position: " + startTouchPosition);
-    }
+    public float minSwipeLength = 30f;
+    public VideoManager videoManager;
 
-    public void OnEndDrag(PointerEventData eventData)
+    void Update()
     {
-        // Record end position when touch ends
-        endTouchPosition = eventData.position;
-        Debug.Log("End touch position: " + endTouchPosition);
-        DetectSwipe();
-    }
-
-    private void DetectSwipe()
-    {
-        if (Vector3.Distance(startTouchPosition, endTouchPosition) >= dragThreshold)
+        // Check for mouse input to start the swipe
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 direction = endTouchPosition - startTouchPosition;
-            Vector2 swipeType = Vector2.zero;
+            // Record start position
+            startTouchPosition = Input.mousePosition;
+            isSwiping = true;
+        }
 
-            // Check if the swipe is vertical or horizontal
-            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            {
-                // The swipe is horizontal
-                swipeType = Vector2.right * Mathf.Sign(direction.x);
-            }
-            else
-            {
-                // The swipe is vertical (if needed)
-                swipeType = Vector2.up * Mathf.Sign(direction.y);
-            }
+        // Check for mouse input to end the swipe
+        if (Input.GetMouseButtonUp(0) && isSwiping)
+        {
+            isSwiping = false;
+            currentSwipe = (Vector2)Input.mousePosition - startTouchPosition;
 
-            // Swipe right
-            if (swipeType.x > 0)
+            // Check if the swipe is long enough to be considered a swipe
+            // Check if the swipe is long enough to be considered a swipe
+            if (currentSwipe.magnitude > minSwipeLength)
             {
-                // Show next video/placeholder to the left
-                videoManager.DisplayNextPlaceholder();
-            }
-            // Swipe left
-            else if (swipeType.x < 0)
-            {
-                // Show next video/placeholder to the right
-                videoManager.DisplayNextPlaceholder();
+                // Check if the swipe is primarily vertical
+                if (Mathf.Abs(currentSwipe.y) > Mathf.Abs(currentSwipe.x))
+                {
+                    // Check if the swipe is upwards
+                    if (currentSwipe.y > 0)
+                    {
+                        // Swipe up detected
+                        Debug.Log("Swipe Up");
+                        videoManager.DisplayNextPlaceholder();
+                    }
+                }
             }
         }
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        // Optional: Use arrow keys to simulate swipes (for testing in editor)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Debug.Log("Simulate swipe right");
+            Debug.Log("Simulate swipe up");
             videoManager.DisplayNextPlaceholder();
         }
     }

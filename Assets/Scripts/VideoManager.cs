@@ -23,6 +23,12 @@ public class VideoManager : MonoBehaviour
     private Dictionary<VideoCategory, int> likeCounts;
     public RawImage displayImage;
 
+    public RectTransform currentImageRectTransform; // Assign this in the inspector
+    public RectTransform nextImageRectTransform; // Assign this in the inspector
+    public float swipeSpeed = 1f;
+
+    private Vector2 nextImageStartPosition;
+
     // Initialization
     void Start()
     {
@@ -31,6 +37,8 @@ public class VideoManager : MonoBehaviour
             {VideoCategory.B, 0},
             {VideoCategory.C, 0}
         };
+
+        nextImageStartPosition = nextImageRectTransform.anchoredPosition;
     }
 
     // Method to get the next video/placeholder.
@@ -52,11 +60,65 @@ public class VideoManager : MonoBehaviour
         return weightedList[randomIndex];
     }
 
-    // Call this to update the display with the next placeholder.
     public void DisplayNextPlaceholder()
     {
-        Debug.Log("Swiped!");
+        // Get the next texture
         Texture nextPlaceholder = GetNextVideoPlaceholder();
-        displayImage.texture = nextPlaceholder; // Set the RawImage texture to the new placeholder.
+
+        // Set the texture to the next image (which is initially off-screen below)
+        nextImageRectTransform.GetComponent<RawImage>().texture = nextPlaceholder;
+
+        // Start the animation coroutine
+        StartCoroutine(SwipeTransition());
+    }
+
+    IEnumerator SwipeTransition()
+    {
+        // Disable interaction during the transition
+        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+        nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+
+        float duration = 1f / swipeSpeed;
+        float elapsed = 0f;
+
+        // Calculate the exact move distance based on the current image's height
+        float moveDistance = currentImageRectTransform.rect.height;
+
+        // Starting positions
+        Vector2 currentImageStartPos = currentImageRectTransform.anchoredPosition;
+        Vector2 nextImageStartPos = new Vector2(currentImageStartPos.x, currentImageStartPos.y - moveDistance);
+
+        // Ending positions
+        Vector2 currentImageEndPos = currentImageStartPos + new Vector2(0, moveDistance);
+        Vector2 nextImageEndPos = currentImageStartPos; // Next image moves to where the current image was
+
+        while (elapsed < duration)
+        {
+            // Update elapsed time
+            elapsed += Time.deltaTime;
+
+            // Calculate the next position based on the elapsed time
+            float normalizedTime = elapsed / duration;
+            currentImageRectTransform.anchoredPosition = Vector2.Lerp(currentImageStartPos, currentImageEndPos, normalizedTime);
+            nextImageRectTransform.anchoredPosition = Vector2.Lerp(nextImageStartPos, nextImageEndPos, normalizedTime);
+
+            yield return null;
+        }
+
+        // After the transition, reposition and prepare for the next swipe
+        currentImageRectTransform.anchoredPosition = currentImageEndPos;
+        nextImageRectTransform.anchoredPosition = nextImageEndPos;
+
+        // Move the old current image off-screen to be the next one
+        currentImageRectTransform.GetComponent<RawImage>().texture = GetNextVideoPlaceholder();
+        currentImageRectTransform.anchoredPosition = nextImageStartPos;
+
+        // Swap references so next becomes current
+        var tempRectTransform = currentImageRectTransform;
+        currentImageRectTransform = nextImageRectTransform;
+        nextImageRectTransform = tempRectTransform;
+
+        // Enable interaction on the new current image
+        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
     }
 }
