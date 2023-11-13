@@ -34,7 +34,6 @@ public class VideoManager : MonoBehaviour
     private Vector2 nextImageStartPosition;
     private float lastTapTime = 0f;
     private float tapTimeThreshold = 0.2f; // Time in seconds for double tap
-    private VideoCategory currentCategory;
 
     private VideoEntry currentVideoEntry; 
 
@@ -62,46 +61,12 @@ public class VideoManager : MonoBehaviour
         lastTapTime = Time.time;
     }
 
-    //public void LikeButtonClicked()
-    //{
-    //    LikeCurrentVideo();
-    //    StartCoroutine(LikeAnimation());
-    //}
-
     public void LikeCurrentVideo()
     {
-        likeCounts[currentCategory]++;
+        likeCounts[GetCurrentVideoCategory()]++;
         // Additional logic to update UI or other elements here
-        Debug.Log("Liked video in category: " + currentCategory);
+        Debug.Log("Liked video in category: " + GetCurrentVideoCategory());
     }
-
-    // Animation for the like button to scale up and then return to normal size
-    //private IEnumerator LikeAnimation()
-    //{
-    //    likeButtonImage.sprite = likedSprite; // Change to the liked sprite immediately
-    //    Vector3 originalScale = likeButtonImage.transform.localScale;
-    //    Vector3 targetScale = originalScale * 1.2f;
-
-    //    // Scale up
-    //    float t = 0f;
-    //    while (t < 0.1f)
-    //    {
-    //        likeButtonImage.transform.localScale = Vector3.Lerp(originalScale, targetScale, t / 0.1f);
-    //        t += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    // Scale down
-    //    t = 0f;
-    //    while (t < 0.1f)
-    //    {
-    //        likeButtonImage.transform.localScale = Vector3.Lerp(targetScale, originalScale, t / 0.1f);
-    //        t += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    likeButtonImage.transform.localScale = originalScale; // Reset to original scale
-    //}
 
     // Method to get the next video/placeholder.
     public Texture GetNextVideoPlaceholder()
@@ -149,17 +114,19 @@ public class VideoManager : MonoBehaviour
     IEnumerator ChangeTextureWithDelay()
     {
         // Get the next video entry
-        currentVideoEntry = GetNextVideoEntry();
+        VideoEntry nextVideoEntry = GetNextVideoEntry();
 
+        // Set the texture to the next image (which is initially off-screen below)
+        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[Random.Range(0, nextVideoEntry.placeholders.Count)];
+
+        // Wait for 0.5 seconds before starting the transition
+        yield return new WaitForSeconds(0f);
+
+        // Now start the swipe transition animation
         StartCoroutine(SwipeTransition());
 
-        // Wait for 0.5 seconds before changing the texture
-        yield return new WaitForSeconds(0.8f / swipeSpeed);
-
-        // Now set the texture to the current image (which is displayed on screen)
-        currentImageRectTransform.GetComponent<RawImage>().texture = currentVideoEntry.placeholders[Random.Range(0, currentVideoEntry.placeholders.Count)];
-
-        // Start the swipe transition animation
+        // After the transition, update the current video entry
+        currentVideoEntry = nextVideoEntry;
     }
 
     private VideoCategory GetCurrentVideoCategory()
@@ -205,10 +172,6 @@ public class VideoManager : MonoBehaviour
         currentImageRectTransform.anchoredPosition = currentImageEndPos;
         nextImageRectTransform.anchoredPosition = nextImageEndPos;
 
-        // Move the old current image off-screen to be the next one
-        currentImageRectTransform.GetComponent<RawImage>().texture = GetNextVideoPlaceholder();
-        currentImageRectTransform.anchoredPosition = nextImageStartPos;
-
         // Swap references so next becomes current
         var tempRectTransform = currentImageRectTransform;
         currentImageRectTransform = nextImageRectTransform;
@@ -217,6 +180,7 @@ public class VideoManager : MonoBehaviour
         // Enable interaction on the new current image
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
 
+        // Reset like button sprite if necessary
         likeButtonImage.sprite = likeSprite;
     }
 }

@@ -11,21 +11,40 @@ public class SwipeController : MonoBehaviour
 
     void Update()
     {
-        // Check for mouse input to start the swipe
+        StartSwipe();
+        EndSwipe();
+
+        // Optional: Use arrow keys to simulate swipes (for testing in editor)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Debug.Log("Simulate swipe up");
+            videoManager.DisplayNextPlaceholder();
+        }
+    }
+
+    void StartSwipe()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             // Record start position
             startTouchPosition = Input.mousePosition;
             isSwiping = true;
+            Debug.Log("Start Position: " + startTouchPosition);
         }
+    }
 
+    void EndSwipe()
+    {
         // Check for mouse input to end the swipe
         if (Input.GetMouseButtonUp(0) && isSwiping)
         {
-            isSwiping = false;
-            currentSwipe = (Vector2)Input.mousePosition - startTouchPosition;
+            Vector2 endTouchPosition = Input.mousePosition;
+            Debug.Log("End Position: " + endTouchPosition);
 
-            // Check if the swipe is long enough to be considered a swipe
+            isSwiping = false;
+            currentSwipe = endTouchPosition - startTouchPosition;
+            Debug.Log("Current Swipe:" + currentSwipe);
+
             // Check if the swipe is long enough to be considered a swipe
             if (currentSwipe.magnitude > minSwipeLength)
             {
@@ -41,13 +60,6 @@ public class SwipeController : MonoBehaviour
                     }
                 }
             }
-        }
-
-        // Optional: Use arrow keys to simulate swipes (for testing in editor)
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Debug.Log("Simulate swipe up");
-            videoManager.DisplayNextPlaceholder();
         }
     }
 }

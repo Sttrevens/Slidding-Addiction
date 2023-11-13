@@ -15,7 +15,7 @@ public class DoubleTapLike : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Clicked!");
+        //Debug.Log("Clicked!");
         // If the time since the last tap is less than the threshold, we consider it a double-tap
         if ((Time.time - lastTapTime) < tapTimeThreshold)
         {
