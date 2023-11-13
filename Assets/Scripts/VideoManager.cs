@@ -35,7 +35,17 @@ public class VideoManager : MonoBehaviour
     private float lastTapTime = 0f;
     private float tapTimeThreshold = 0.2f; // Time in seconds for double tap
 
-    private VideoEntry currentVideoEntry; 
+    private VideoEntry currentVideoEntry;
+
+    public VideoCategory favoriteCategory;
+    private float happinessValue;
+    public HappinessBar happinessBar;
+    public float maxHappinessValue = 10f;
+
+    private float anxietyValue = 0f;
+    private float maxAnxietyValue = 10f;
+    private bool isMissFavoriteVideo = false;
+    public AnxietyBar anxietyBar;
 
     void Start()
     {
@@ -66,6 +76,17 @@ public class VideoManager : MonoBehaviour
         likeCounts[GetCurrentVideoCategory()]++;
         // Additional logic to update UI or other elements here
         Debug.Log("Liked video in category: " + GetCurrentVideoCategory());
+
+        if (GetCurrentVideoCategory() == favoriteCategory)
+        {
+            UpdateHappiness();
+            isMissFavoriteVideo = false;
+        }
+        else
+        {
+            anxietyValue++;
+            UpdateAnxiety();
+        }
     }
 
     // Method to get the next video/placeholder.
@@ -182,5 +203,31 @@ public class VideoManager : MonoBehaviour
 
         // Reset like button sprite if necessary
         likeButtonImage.sprite = likeSprite;
+
+        if (isMissFavoriteVideo == true)
+        {
+            anxietyValue++;
+            UpdateAnxiety();
+        }
+
+        if (currentVideoEntry.category != favoriteCategory)
+        {
+            isMissFavoriteVideo = false;
+        }
+        else
+        {
+            isMissFavoriteVideo = true;
+        }
+    }
+
+    void UpdateHappiness()
+    {
+        happinessValue = (float)likeCounts[favoriteCategory];
+        happinessBar.SetHealth(happinessValue, maxHappinessValue);
+    }
+
+    void UpdateAnxiety()
+    {
+        anxietyBar.SetHealth(anxietyValue, maxAnxietyValue);
     }
 }
