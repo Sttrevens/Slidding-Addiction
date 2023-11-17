@@ -47,6 +47,10 @@ public class VideoManager : MonoBehaviour
     private bool isMissFavoriteVideo = false;
     public AnxietyBar anxietyBar;
 
+    private float elapsedTime;
+    private float valueUpdateInterval = 1.0f;
+    private float nextValueUpdateTime = 0;
+
     void Start()
     {
         likeCounts = new Dictionary<VideoCategory, int>{
@@ -59,6 +63,19 @@ public class VideoManager : MonoBehaviour
 
         // Set the first video
         DisplayNextPlaceholder();
+    }
+
+    void Update()
+    {
+        elapsedTime += Time.deltaTime;
+
+        // Check if it's time to update the value
+        if (elapsedTime >= nextValueUpdateTime)
+        {
+            anxietyValue += 0.5f;
+            UpdateAnxiety();
+            nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
