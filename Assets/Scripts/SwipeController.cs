@@ -20,6 +20,12 @@ public class SwipeController : MonoBehaviour
             Debug.Log("Simulate swipe up");
             videoManager.DisplayNextPlaceholder();
         }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Debug.Log("Simulate swipe down");
+            videoManager.DisplayPreviousPlaceholder();
+        }
     }
 
     void StartSwipe()
@@ -57,6 +63,13 @@ public class SwipeController : MonoBehaviour
                         // Swipe up detected
                         Debug.Log("Swipe Up");
                         videoManager.DisplayNextPlaceholder();
+                    }
+                    // Check if the swipe is downwards
+                    else if (currentSwipe.y < 0)
+                    {
+                        // Swipe down detected
+                        Debug.Log("Swipe Down");
+                        videoManager.DisplayPreviousPlaceholder(); // Implement this method in VideoManager
                     }
                 }
             }

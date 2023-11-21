@@ -18,6 +18,13 @@ public class VideoEntry
     public List<Texture> placeholders;
 }
 
+[System.Serializable]
+public struct VideoHistoryEntry
+{
+    public VideoEntry videoEntry;
+    public int textureIndex;
+}
+
 public class VideoManager : MonoBehaviour
 {
     public List<VideoEntry> videoPool;
@@ -51,6 +58,11 @@ public class VideoManager : MonoBehaviour
     private float valueUpdateInterval = 1.0f;
     private float nextValueUpdateTime = 0;
 
+    private Stack<VideoHistoryEntry> videoHistory = new Stack<VideoHistoryEntry>();
+    private int currentTextureIndex = 0;
+
+    public bool isOnTable = false;
+
     void Start()
     {
         likeCounts = new Dictionary<VideoCategory, int>{
@@ -62,19 +74,67 @@ public class VideoManager : MonoBehaviour
         nextImageStartPosition = nextImageRectTransform.anchoredPosition;
 
         // Set the first video
-        DisplayNextPlaceholder();
+        //DisplayNextPlaceholder();
+        VideoEntry nextVideoEntry = GetNextVideoEntry();
+        currentTextureIndex = Random.Range(0, nextVideoEntry.placeholders.Count);
+        if (currentVideoEntry != null)
+        {
+            // Store both video entry and the index of the texture displayed
+            videoHistory.Push(new VideoHistoryEntry
+            {
+                videoEntry = currentVideoEntry,
+                textureIndex = currentTextureIndex
+            });
+        }
+        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[currentTextureIndex];
+        currentVideoEntry = nextVideoEntry;
+        anxietyValue = Mathf.Clamp(anxietyValue, 0, maxAnxietyValue);
+        happinessValue = Mathf.Clamp(happinessValue, 0, maxHappinessValue);
     }
 
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-
-        // Check if it's time to update the value
-        if (elapsedTime >= nextValueUpdateTime)
+        if (!isOnTable)
         {
-            anxietyValue += 0.5f;
-            UpdateAnxiety();
-            nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+            elapsedTime += Time.deltaTime;
+
+            // Check if it's time to update the value
+            if (elapsedTime >= nextValueUpdateTime)
+            {
+                anxietyValue += 0.5f;
+                UpdateAnxiety();
+                nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+            }
+        }
+        else
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Check if it's time to update the value
+            if (elapsedTime >= nextValueUpdateTime)
+            {
+                anxietyValue -= 0.5f;
+                UpdateAnxiety();
+                nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+            }
+        }
+
+        if (anxietyValue > maxAnxietyValue)
+        {
+            anxietyValue = maxAnxietyValue;
+        }
+        else if (anxietyValue < 0)
+        {
+            anxietyValue = 0;
+        }
+
+        if (happinessValue > maxHappinessValue)
+        {
+            happinessValue = maxHappinessValue;
+        }
+        else if (happinessValue < 0)
+        {
+            happinessValue = 0;
         }
     }
 
@@ -145,26 +205,39 @@ public class VideoManager : MonoBehaviour
 
     public void DisplayNextPlaceholder()
     {
-        // Start the coroutine to change the texture after a delay
-        StartCoroutine(ChangeTextureWithDelay());
-    }
-
-    IEnumerator ChangeTextureWithDelay()
-    {
-        // Get the next video entry
         VideoEntry nextVideoEntry = GetNextVideoEntry();
+        currentTextureIndex = Random.Range(0, nextVideoEntry.placeholders.Count);
 
-        // Set the texture to the next image (which is initially off-screen below)
-        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[Random.Range(0, nextVideoEntry.placeholders.Count)];
+        if (currentVideoEntry != null)
+        {
+            // Store both video entry and the index of the texture displayed
+            videoHistory.Push(new VideoHistoryEntry
+            {
+                videoEntry = currentVideoEntry,
+                textureIndex = currentTextureIndex
+        });
+        }
 
-        // Wait for 0.5 seconds before starting the transition
-        yield return new WaitForSeconds(0f);
-
-        // Now start the swipe transition animation
+        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[currentTextureIndex];
         StartCoroutine(SwipeTransition());
 
-        // After the transition, update the current video entry
         currentVideoEntry = nextVideoEntry;
+        // Store the texture index of the next video entry
+        // ...
+    }
+
+    public void DisplayPreviousPlaceholder()
+    {
+        if (videoHistory.Count > 0)
+        {
+            VideoHistoryEntry previousEntry = videoHistory.Pop();
+            currentImageRectTransform.GetComponent<RawImage>().texture = previousEntry.videoEntry.placeholders[previousEntry.textureIndex];
+
+            StartCoroutine(SwipeTransitionDown());
+            currentVideoEntry = previousEntry.videoEntry;
+            // Store the texture index of the previous video entry
+            // ...
+        }
     }
 
     private VideoCategory GetCurrentVideoCategory()
@@ -236,6 +309,55 @@ public class VideoManager : MonoBehaviour
             isMissFavoriteVideo = true;
         }
     }
+
+    IEnumerator SwipeTransitionDown()
+    {
+        // Disable interaction during the transition
+        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+        nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+
+        float duration = 1f / swipeSpeed;
+        float elapsed = 0f;
+
+        // Calculate the exact move distance based on the current image's height
+        float moveDistance = currentImageRectTransform.rect.height;
+
+        // Starting positions
+        Vector2 currentImageStartPos = currentImageRectTransform.anchoredPosition;
+        Vector2 nextImageStartPos = new Vector2(currentImageStartPos.x, currentImageStartPos.y + moveDistance);
+
+        // Ending positions
+        Vector2 currentImageEndPos = currentImageStartPos - new Vector2(0, moveDistance);
+        Vector2 nextImageEndPos = currentImageStartPos; // Next image moves to where the current image was
+
+        while (elapsed < duration)
+        {
+            // Update elapsed time
+            elapsed += Time.deltaTime;
+
+            // Calculate the next position based on the elapsed time
+            float normalizedTime = elapsed / duration;
+            currentImageRectTransform.anchoredPosition = Vector2.Lerp(currentImageStartPos, currentImageEndPos, normalizedTime);
+            nextImageRectTransform.anchoredPosition = Vector2.Lerp(nextImageStartPos, nextImageEndPos, normalizedTime);
+
+            yield return null;
+        }
+
+        // After the transition, reposition and prepare for the next swipe
+        currentImageRectTransform.anchoredPosition = currentImageEndPos;
+        nextImageRectTransform.anchoredPosition = nextImageEndPos;
+
+        // Swap references so next becomes current
+        var tempRectTransform = currentImageRectTransform;
+        currentImageRectTransform = nextImageRectTransform;
+        nextImageRectTransform = tempRectTransform;
+
+        // Enable interaction on the new current image
+        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
+
+        likeButtonImage.sprite = likeSprite;
+    }
+
 
     void UpdateHappiness()
     {
