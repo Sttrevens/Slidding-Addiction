@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public enum VideoCategory
 {
@@ -44,7 +45,8 @@ public class VideoManager : MonoBehaviour
 
     private VideoEntry currentVideoEntry;
 
-    public VideoCategory favoriteCategory;
+    public CategoryUI categoryUI;
+    private VideoCategory favoriteCategory;
     private float happinessValue;
     public HappinessBar happinessBar;
     public float maxHappinessValue = 10f;
@@ -63,6 +65,8 @@ public class VideoManager : MonoBehaviour
 
     public bool isOnTable = false;
 
+    public FavoriteCategory favoriteCategoryClass;
+
     void Start()
     {
         likeCounts = new Dictionary<VideoCategory, int>{
@@ -76,7 +80,7 @@ public class VideoManager : MonoBehaviour
         // Set the first video
         //DisplayNextPlaceholder();
         VideoEntry nextVideoEntry = GetNextVideoEntry();
-        currentTextureIndex = Random.Range(0, nextVideoEntry.placeholders.Count);
+        currentTextureIndex = UnityEngine.Random.Range(0, nextVideoEntry.placeholders.Count);
         if (currentVideoEntry != null)
         {
             // Store both video entry and the index of the texture displayed
@@ -90,6 +94,9 @@ public class VideoManager : MonoBehaviour
         currentVideoEntry = nextVideoEntry;
         anxietyValue = Mathf.Clamp(anxietyValue, 0, maxAnxietyValue);
         happinessValue = Mathf.Clamp(happinessValue, 0, maxHappinessValue);
+
+        favoriteCategory = favoriteCategoryClass.favoriteCategory;
+        Debug.Log("Actual favorite:" + favoriteCategory);
     }
 
     void Update()
@@ -180,7 +187,7 @@ public class VideoManager : MonoBehaviour
             }
         }
 
-        int randomIndex = Random.Range(0, weightedList.Count);
+        int randomIndex = UnityEngine.Random.Range(0, weightedList.Count);
         return weightedList[randomIndex];
     }
     
@@ -199,14 +206,14 @@ public class VideoManager : MonoBehaviour
         }
 
         // Randomly select from the weighted list
-        int randomIndex = Random.Range(0, weightedList.Count);
+        int randomIndex = UnityEngine.Random.Range(0, weightedList.Count);
         return weightedList[randomIndex];
     }
 
     public void DisplayNextPlaceholder()
     {
         VideoEntry nextVideoEntry = GetNextVideoEntry();
-        currentTextureIndex = Random.Range(0, nextVideoEntry.placeholders.Count);
+        currentTextureIndex = UnityEngine.Random.Range(0, nextVideoEntry.placeholders.Count);
 
         if (currentVideoEntry != null)
         {

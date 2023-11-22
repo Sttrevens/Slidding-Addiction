@@ -17,8 +17,19 @@ public class GameStartSwipeController : MonoBehaviour
 
     public AnimationCurve swingCurve;
 
+    private Vector2 startTouchPosition;
+    private Vector2 currentSwipe;
+    private bool isSwiping = false;
+
+    public float minSwipeLength = 30f;
+
+    public float screenHeight = 2530f;
+
     void Update()
     {
+        StartSwipe();
+        EndSwipe();
+
         if (Input.GetKeyDown(KeyCode.UpArrow)) // Use actual swipe detection here
         {
             SwipeDown();
@@ -36,17 +47,17 @@ public class GameStartSwipeController : MonoBehaviour
         if (currentScreen == 0)
         {
             // First swipe - move the Menu screen down and reveal the Goal Image screen
-            StartCoroutine(MovePanel(menuScreen, Screen.height));
-            StartCoroutine(MovePanel(goalImageScreen, Screen.height));
-            StartCoroutine(MovePanel(gameScreen, Screen.height));
+            StartCoroutine(MovePanel(menuScreen, screenHeight));
+            StartCoroutine(MovePanel(goalImageScreen, screenHeight));
+            StartCoroutine(MovePanel(gameScreen, screenHeight));
             currentScreen++;
         }
         else if (currentScreen == 1)
         {
             // Second swipe - move the Goal Image screen down and reveal the Game screen
-            StartCoroutine(MovePanel(menuScreen, Screen.height));
-            StartCoroutine(MovePanel(goalImageScreen, Screen.height));
-            StartCoroutine(MovePanel(gameScreen, Screen.height));
+            StartCoroutine(MovePanel(menuScreen, screenHeight));
+            StartCoroutine(MovePanel(goalImageScreen, screenHeight));
+            StartCoroutine(MovePanel(gameScreen, screenHeight));
             currentScreen++;
         }
     }
@@ -76,5 +87,46 @@ public class GameStartSwipeController : MonoBehaviour
         Debug.Log("Game Started");
 
         gameStartScreen.SetActive(true);
+    }
+
+    void StartSwipe()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Record start position
+            startTouchPosition = Input.mousePosition;
+            isSwiping = true;
+            Debug.Log("Start Position: " + startTouchPosition);
+        }
+    }
+
+    void EndSwipe()
+    {
+        // Check for mouse input to end the swipe
+        if (Input.GetMouseButtonUp(0) && isSwiping)
+        {
+            Vector2 endTouchPosition = Input.mousePosition;
+            Debug.Log("End Position: " + endTouchPosition);
+
+            isSwiping = false;
+            currentSwipe = endTouchPosition - startTouchPosition;
+            Debug.Log("Current Swipe:" + currentSwipe);
+
+            // Check if the swipe is long enough to be considered a swipe
+            if (currentSwipe.magnitude > minSwipeLength)
+            {
+                // Check if the swipe is primarily vertical
+                if (Mathf.Abs(currentSwipe.y) > Mathf.Abs(currentSwipe.x))
+                {
+                    // Check if the swipe is upwards
+                    if (currentSwipe.y > 0)
+                    {
+                        // Swipe up detected
+                        Debug.Log("Swipe Up");
+                        SwipeDown();
+                    }
+                }
+            }
+        }
     }
 }

@@ -460,11 +460,12 @@ MonoBehaviour:
   likeButtonImage: {fileID: 1607368391}
   likeSprite: {fileID: 21300000, guid: 567f288c26e8b444d986fa579dc2491f, type: 3}
   likedSprite: {fileID: 21300000, guid: 9db357f405e044fe0941ef94e6707aa2, type: 3}
-  favoriteCategory: 0
+  categoryUI: {fileID: 0}
   happinessBar: {fileID: 452669075}
   maxHappinessValue: 10
   anxietyBar: {fileID: 1102897761}
   isOnTable: 0
+  favoriteCategoryClass: {fileID: 1110196189}
 --- !u!1 &220630941
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad69a80b75ec4e309d77b5547666e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoManager: {fileID: 0}
+  videoManager: {fileID: 220281163}
   likeButtonImage: {fileID: 1607368391}
   likeSprite: {fileID: 21300000, guid: 567f288c26e8b444d986fa579dc2491f, type: 3}
   likedSprite: {fileID: 21300000, guid: 9db357f405e044fe0941ef94e6707aa2, type: 3}
@@ -1463,6 +1464,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  minSwipeLength: 30
+  screenHeight: 2530
 --- !u!1 &610234713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,7 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad69a80b75ec4e309d77b5547666e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoManager: {fileID: 0}
+  videoManager: {fileID: 220281163}
   likeButtonImage: {fileID: 1607368391}
   likeSprite: {fileID: 21300000, guid: 567f288c26e8b444d986fa579dc2491f, type: 3}
   likedSprite: {fileID: 21300000, guid: 9db357f405e044fe0941ef94e6707aa2, type: 3}
@@ -2038,6 +2041,8 @@ GameObject:
   - component: {fileID: 1110196185}
   - component: {fileID: 1110196187}
   - component: {fileID: 1110196186}
+  - component: {fileID: 1110196188}
+  - component: {fileID: 1110196189}
   m_Layer: 5
   m_Name: GoalCard
   m_TagString: Untagged
@@ -2102,6 +2107,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110196184}
   m_CullTransparentMesh: 1
+--- !u!114 &1110196188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110196184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d060ec6841b4acc8c9641dbb158e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoManager: {fileID: 220281163}
+  favoriteCategory: {fileID: 1110196189}
+  categoryASprite: {fileID: 21300000, guid: 49b3942129cd64933ab47e24d7ab5f97, type: 3}
+  categoryBSprite: {fileID: 21300000, guid: 888c6a7885e4d419cb466589f4175f77, type: 3}
+  categoryCSprite: {fileID: 21300000, guid: f48a54efc744244579c83a9f2923acb4, type: 3}
+--- !u!114 &1110196189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110196184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3af7226f4ed4d9a8aadca65ca424e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  favoriteCategory: 0
 --- !u!1 &1171178536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2348,8 +2383,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 476, y: -380}
-  m_SizeDelta: {x: 134, y: 121}
+  m_AnchoredPosition: {x: 475.6, y: -371.7832}
+  m_SizeDelta: {x: 99.5085, y: 89.8547}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1607368391
 MonoBehaviour:
@@ -2697,8 +2732,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 476, y: -529.22815}
-  m_SizeDelta: {x: 134, y: 125}
+  m_AnchoredPosition: {x: 475.6, y: -532.3}
+  m_SizeDelta: {x: 99.5085, y: 92.825}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1992431375
 MonoBehaviour:
@@ -2862,6 +2897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoManager: {fileID: 220281163}
+  favoriteCategory: {fileID: 1110196189}
   categoryASprite: {fileID: 21300000, guid: 990abd38403d645938b4010774ae9dad, type: 3}
   categoryBSprite: {fileID: 21300000, guid: 09e73b661b64a43db8a42e7ea9e20f56, type: 3}
   categoryCSprite: {fileID: 21300000, guid: 2cc542edb4f3e46cc8738f4492f65ad7, type: 3}

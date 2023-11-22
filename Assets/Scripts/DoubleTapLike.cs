@@ -35,6 +35,8 @@ public class DoubleTapLike : MonoBehaviour, IPointerClickHandler
         likeGameObject.transform.position = worldPosition;
         likeGameObject.SetActive(true);
 
+        videoManager.LikeCurrentVideo();
+
         // Start the animation coroutine
         StartCoroutine(LikeAnimation());
     }

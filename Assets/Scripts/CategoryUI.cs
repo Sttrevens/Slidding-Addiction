@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class CategoryUIImage : MonoBehaviour
+public class CategoryUI : MonoBehaviour
 {
     public VideoManager videoManager; // Assign in inspector
+    public FavoriteCategory favoriteCategory;
     public Sprite categoryASprite;    // Assign in inspector
     public Sprite categoryBSprite;    // Assign in inspector
     public Sprite categoryCSprite;    // Assign in inspector
@@ -18,7 +20,7 @@ public class CategoryUIImage : MonoBehaviour
 
     public void UpdateImage()
     {
-        switch (videoManager.favoriteCategory)
+        switch (favoriteCategory.favoriteCategory)
         {
             case VideoCategory.A:
                 imageComponent.sprite = categoryASprite;
