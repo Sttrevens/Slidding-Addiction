@@ -105,24 +105,36 @@ public class VideoManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            // Check if it's time to update the value
+            // Calculate the amount to decrease anxietyValue by, proportional to the elapsed time per frame
+            // This will ensure a smooth decrease over time.
+            float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
+            anxietyValue += decreaseAmount;
+
+            // Make sure to update the UI or other representations of anxietyValue
+            UpdateAnxiety();
+
+            // Reset the timer and update interval logic if still needed for other purposes
             if (elapsedTime >= nextValueUpdateTime)
             {
-                anxietyValue += 0.5f;
-                UpdateAnxiety();
-                nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+                nextValueUpdateTime += valueUpdateInterval;
             }
         }
         else
         {
             elapsedTime += Time.deltaTime;
 
-            // Check if it's time to update the value
+            // Calculate the amount to decrease anxietyValue by, proportional to the elapsed time per frame
+            // This will ensure a smooth decrease over time.
+            float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
+            anxietyValue -= decreaseAmount;
+
+            // Make sure to update the UI or other representations of anxietyValue
+            UpdateAnxiety();
+
+            // Reset the timer and update interval logic if still needed for other purposes
             if (elapsedTime >= nextValueUpdateTime)
             {
-                anxietyValue -= 0.5f;
-                UpdateAnxiety();
-                nextValueUpdateTime += valueUpdateInterval; // Set the next update time
+                nextValueUpdateTime += valueUpdateInterval;
             }
         }
 

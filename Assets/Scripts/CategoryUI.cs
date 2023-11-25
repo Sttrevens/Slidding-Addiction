@@ -15,6 +15,10 @@ public class CategoryUI : MonoBehaviour
     void Start()
     {
         imageComponent = GetComponent<Image>();
+    }
+
+    void Update()
+    {
         UpdateImage();
     }
 
