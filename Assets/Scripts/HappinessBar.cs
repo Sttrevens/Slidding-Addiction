@@ -5,20 +5,19 @@ using UnityEngine;
 public class HappinessBar : MonoBehaviour
 {
     private RectTransform healthBarRect;
-    private float originalScaleX; // To keep the original X scale
+    private float originalScaleX;
 
     void Awake()
     {
         healthBarRect = GetComponent<RectTransform>();
-        originalScaleX = healthBarRect.localScale.x; // Store the original X scale
+        originalScaleX = healthBarRect.localScale.x;
         healthBarRect.localScale = new Vector3(0f, healthBarRect.localScale.y, healthBarRect.localScale.z);
     }
 
     public void SetHealth(float currentHealth, float maxHealth)
     {
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure current health is within bounds
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        // Calculate the new scale based on the current health
         float scaleX = (currentHealth / maxHealth) * originalScaleX;
         healthBarRect.localScale = new Vector3(scaleX, healthBarRect.localScale.y, healthBarRect.localScale.z);
     }

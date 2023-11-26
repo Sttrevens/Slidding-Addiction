@@ -105,15 +105,11 @@ public class VideoManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            // Calculate the amount to decrease anxietyValue by, proportional to the elapsed time per frame
-            // This will ensure a smooth decrease over time.
             float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
             anxietyValue += decreaseAmount;
 
-            // Make sure to update the UI or other representations of anxietyValue
             UpdateAnxiety();
 
-            // Reset the timer and update interval logic if still needed for other purposes
             if (elapsedTime >= nextValueUpdateTime)
             {
                 nextValueUpdateTime += valueUpdateInterval;
@@ -123,15 +119,11 @@ public class VideoManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            // Calculate the amount to decrease anxietyValue by, proportional to the elapsed time per frame
-            // This will ensure a smooth decrease over time.
             float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
             anxietyValue -= decreaseAmount;
 
-            // Make sure to update the UI or other representations of anxietyValue
             UpdateAnxiety();
 
-            // Reset the timer and update interval logic if still needed for other purposes
             if (elapsedTime >= nextValueUpdateTime)
             {
                 nextValueUpdateTime += valueUpdateInterval;
@@ -267,14 +259,12 @@ public class VideoManager : MonoBehaviour
 
     IEnumerator SwipeTransition()
     {
-        // Disable interaction during the transition
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
         nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
 
         float duration = 1f / swipeSpeed;
         float elapsed = 0f;
 
-        // Calculate the exact move distance based on the current image's height
         float moveDistance = currentImageRectTransform.rect.height;
 
         // Starting positions
@@ -283,14 +273,12 @@ public class VideoManager : MonoBehaviour
 
         // Ending positions
         Vector2 currentImageEndPos = currentImageStartPos + new Vector2(0, moveDistance);
-        Vector2 nextImageEndPos = currentImageStartPos; // Next image moves to where the current image was
+        Vector2 nextImageEndPos = currentImageStartPos;
 
         while (elapsed < duration)
         {
-            // Update elapsed time
             elapsed += Time.deltaTime;
 
-            // Calculate the next position based on the elapsed time
             float normalizedTime = elapsed / duration;
             currentImageRectTransform.anchoredPosition = Vector2.Lerp(currentImageStartPos, currentImageEndPos, normalizedTime);
             nextImageRectTransform.anchoredPosition = Vector2.Lerp(nextImageStartPos, nextImageEndPos, normalizedTime);
@@ -298,19 +286,15 @@ public class VideoManager : MonoBehaviour
             yield return null;
         }
 
-        // After the transition, reposition and prepare for the next swipe
         currentImageRectTransform.anchoredPosition = currentImageEndPos;
         nextImageRectTransform.anchoredPosition = nextImageEndPos;
 
-        // Swap references so next becomes current
         var tempRectTransform = currentImageRectTransform;
         currentImageRectTransform = nextImageRectTransform;
         nextImageRectTransform = tempRectTransform;
 
-        // Enable interaction on the new current image
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
 
-        // Reset like button sprite if necessary
         likeButtonImage.sprite = likeSprite;
 
         if (isMissFavoriteVideo == true)

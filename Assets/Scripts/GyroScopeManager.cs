@@ -6,7 +6,6 @@ public class GyroscopeManager : MonoBehaviour
 
     void Start()
     {
-        // Check if the device supports the gyroscope
         if (SystemInfo.supportsGyroscope)
         {
             Input.gyro.enabled = true;
@@ -21,11 +20,8 @@ public class GyroscopeManager : MonoBehaviour
     {
         if (SystemInfo.supportsGyroscope)
         {
-            // Get the gyroscope attitude (rotation)
             Quaternion gyroAttitude = Input.gyro.attitude;
 
-            // Check if the device is lying flat
-            // We check if the z component of the gyroscope's rotation is close to 0
             if (Mathf.Abs(gyroAttitude.x) < 0.1f)
             {
                 OnDeviceLyingFlat();
@@ -39,7 +35,6 @@ public class GyroscopeManager : MonoBehaviour
 
     void OnDeviceLyingFlat()
     {
-        // Trigger actions when the device is lying flat
         Debug.Log("Device is lying flat on the table");
         videoManager.isOnTable = true;
     }

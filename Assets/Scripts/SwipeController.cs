@@ -14,7 +14,6 @@ public class SwipeController : MonoBehaviour
         StartSwipe();
         EndSwipe();
 
-        // Optional: Use arrow keys to simulate swipes (for testing in editor)
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             Debug.Log("Simulate swipe up");
@@ -51,25 +50,19 @@ public class SwipeController : MonoBehaviour
             currentSwipe = endTouchPosition - startTouchPosition;
             Debug.Log("Current Swipe:" + currentSwipe);
 
-            // Check if the swipe is long enough to be considered a swipe
             if (currentSwipe.magnitude > minSwipeLength)
             {
-                // Check if the swipe is primarily vertical
                 if (Mathf.Abs(currentSwipe.y) > Mathf.Abs(currentSwipe.x))
                 {
-                    // Check if the swipe is upwards
                     if (currentSwipe.y > 0)
                     {
-                        // Swipe up detected
                         Debug.Log("Swipe Up");
                         videoManager.DisplayNextPlaceholder();
                     }
-                    // Check if the swipe is downwards
                     else if (currentSwipe.y < 0)
                     {
-                        // Swipe down detected
                         Debug.Log("Swipe Down");
-                        videoManager.DisplayPreviousPlaceholder(); // Implement this method in VideoManager
+                        videoManager.DisplayPreviousPlaceholder();
                     }
                 }
             }
