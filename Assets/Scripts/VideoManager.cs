@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public enum VideoCategory
 {
@@ -16,14 +18,14 @@ public enum VideoCategory
 public class VideoEntry
 {
     public VideoCategory category;
-    public List<Texture> placeholders;
+    public List<VideoClip> videoClips;
 }
 
 [System.Serializable]
 public struct VideoHistoryEntry
 {
     public VideoEntry videoEntry;
-    public int textureIndex;
+    public VideoClip videoClip;
 }
 
 public class VideoManager : MonoBehaviour
@@ -67,90 +69,156 @@ public class VideoManager : MonoBehaviour
 
     public FavoriteCategory favoriteCategoryClass;
 
+    private bool isLike;
+
+    public VideoPlayer currentVideoPlayer;
+    public VideoPlayer nextVideoPlayer;
+
+    public GameStartSwipeController gameStartSwipeController;
+
+    private bool isEndGame;
+
+    public Image winLosePanel;
+    public List<Sprite> winLoseImages = new List<Sprite>();
+
+    private int stupidCounter = 0;
+    private bool isCurrentVideoPlayer = false;
+    private bool isSwipeUp = false;
+
     void Start()
     {
+        // Initialize likeCounts
         likeCounts = new Dictionary<VideoCategory, int>{
-            {VideoCategory.A, 0},
-            {VideoCategory.B, 0},
-            {VideoCategory.C, 0}
-        };
+        {VideoCategory.A, 0},
+        {VideoCategory.B, 0},
+        {VideoCategory.C, 0}
+    };
 
-        nextImageStartPosition = nextImageRectTransform.anchoredPosition;
+        // Set and play the first video
+        VideoEntry firstVideoEntry = GetNextVideoEntry();
+        PlayVideo(firstVideoEntry, currentVideoPlayer);
 
-        // Set the first video
-        //DisplayNextPlaceholder();
+        currentVideoEntry = firstVideoEntry;
+
+        // Load the next video in the background
+        PrepareNextVideo();
+
+        // Initialize values and favorite category
+        InitializeValues();
+
+        isLike = false;
+        isEndGame = false;
+    }
+
+    private void PlayVideo(VideoEntry videoEntry, VideoPlayer videoPlayer)
+    {
+        int videoClipIndex = UnityEngine.Random.Range(0, videoEntry.videoClips.Count);
+        videoPlayer.clip = videoEntry.videoClips[videoClipIndex];
+        videoPlayer.Play();
+    }
+
+    private void PrepareNextVideo()
+    {
         VideoEntry nextVideoEntry = GetNextVideoEntry();
-        currentTextureIndex = UnityEngine.Random.Range(0, nextVideoEntry.placeholders.Count);
-        if (currentVideoEntry != null)
+        if (isCurrentVideoPlayer)
         {
-            // Store both video entry and the index of the texture displayed
-            videoHistory.Push(new VideoHistoryEntry
-            {
-                videoEntry = currentVideoEntry,
-                textureIndex = currentTextureIndex
-            });
+            nextVideoPlayer.clip = nextVideoEntry.videoClips[UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count)];
+            nextVideoPlayer.Prepare();
         }
-        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[currentTextureIndex];
-        currentVideoEntry = nextVideoEntry;
+        else
+        {
+            currentVideoPlayer.clip = nextVideoEntry.videoClips[UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count)];
+            currentVideoPlayer.Prepare();
+        }
+    }
+
+    private void InitializeValues()
+    {
         anxietyValue = Mathf.Clamp(anxietyValue, 0, maxAnxietyValue);
         happinessValue = Mathf.Clamp(happinessValue, 0, maxHappinessValue);
-
         favoriteCategory = favoriteCategoryClass.favoriteCategory;
         Debug.Log("Actual favorite:" + favoriteCategory);
     }
 
     void Update()
     {
-        if (!isOnTable)
+        if (!isEndGame)
         {
-            elapsedTime += Time.deltaTime;
-
-            float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
-            anxietyValue += decreaseAmount;
-
-            UpdateAnxiety();
-
-            if (elapsedTime >= nextValueUpdateTime)
+            if (!isOnTable)
             {
-                nextValueUpdateTime += valueUpdateInterval;
+                elapsedTime += Time.deltaTime;
+
+                float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
+                anxietyValue += decreaseAmount;
+
+                UpdateAnxiety();
+
+                if (elapsedTime >= nextValueUpdateTime)
+                {
+                    nextValueUpdateTime += valueUpdateInterval;
+                }
             }
+            else
+            {
+                elapsedTime += Time.deltaTime;
+
+                float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
+                anxietyValue -= decreaseAmount;
+
+                UpdateAnxiety();
+
+                if (elapsedTime >= nextValueUpdateTime)
+                {
+                    nextValueUpdateTime += valueUpdateInterval;
+                }
+            }
+
+            if (anxietyValue > maxAnxietyValue)
+            {
+                anxietyValue = maxAnxietyValue;
+                GameLose();
+                isEndGame = true;
+                anxietyValue = 0;
+                happinessValue = 0;
+            }
+            else if (anxietyValue < 0)
+            {
+                anxietyValue = 0;
+            }
+
+            if (happinessValue > maxHappinessValue)
+            {
+                happinessValue = maxHappinessValue;
+                GameWin();
+                isEndGame = true;
+                anxietyValue = 0;
+                happinessValue = 0;
+            }
+            else if (happinessValue < 0)
+            {
+                happinessValue = 0;
+            }
+        }
+
+        if (stupidCounter % 2 == 0)
+        {
+            isCurrentVideoPlayer = true;
         }
         else
         {
-            elapsedTime += Time.deltaTime;
-
-            float decreaseAmount = (0.25f * Time.deltaTime) / valueUpdateInterval;
-            anxietyValue -= decreaseAmount;
-
-            UpdateAnxiety();
-
-            if (elapsedTime >= nextValueUpdateTime)
-            {
-                nextValueUpdateTime += valueUpdateInterval;
-            }
-        }
-
-        if (anxietyValue > maxAnxietyValue)
-        {
-            anxietyValue = maxAnxietyValue;
-        }
-        else if (anxietyValue < 0)
-        {
-            anxietyValue = 0;
-        }
-
-        if (happinessValue > maxHappinessValue)
-        {
-            happinessValue = maxHappinessValue;
-        }
-        else if (happinessValue < 0)
-        {
-            happinessValue = 0;
+            isCurrentVideoPlayer = false;
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isEndGame)
+        {
+            // Restart the scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            return;
+        }
+
         if (eventData.clickCount == 2 && Time.time - lastTapTime < tapTimeThreshold)
         {
             LikeCurrentVideo();
@@ -161,40 +229,44 @@ public class VideoManager : MonoBehaviour
 
     public void LikeCurrentVideo()
     {
-        likeCounts[GetCurrentVideoCategory()]++;
-        // Additional logic to update UI or other elements here
-        Debug.Log("Liked video in category: " + GetCurrentVideoCategory());
+        if (!isLike)
+        {
+            isLike = true;
+            likeCounts[GetCurrentVideoCategory()]++;
+            // Additional logic to update UI or other elements here
+            Debug.Log("Liked video in category: " + GetCurrentVideoCategory());
 
-        if (GetCurrentVideoCategory() == favoriteCategory)
-        {
-            UpdateHappiness();
-            isMissFavoriteVideo = false;
-        }
-        else
-        {
-            anxietyValue++;
-            UpdateAnxiety();
+            if (GetCurrentVideoCategory() == favoriteCategory)
+            {
+                UpdateHappiness();
+                isMissFavoriteVideo = false;
+            }
+            else
+            {
+                anxietyValue++;
+                UpdateAnxiety();
+            }
         }
     }
 
     // Method to get the next video/placeholder.
-    public Texture GetNextVideoPlaceholder()
+    public VideoClip GetNextVideoClip()
     {
-        List<Texture> weightedList = new List<Texture>();
+        List<VideoClip> weightedList = new List<VideoClip>();
         foreach (var entry in videoPool)
         {
             int likeValue = likeCounts[entry.category];
             int weight = Mathf.Max(1, 10 - likeValue);
             for (int i = 0; i < weight; i++)
             {
-                weightedList.AddRange(entry.placeholders);
+                weightedList.AddRange(entry.videoClips);
             }
         }
 
         int randomIndex = UnityEngine.Random.Range(0, weightedList.Count);
         return weightedList[randomIndex];
     }
-    
+
     private VideoEntry GetNextVideoEntry()
     {
         List<VideoEntry> weightedList = new List<VideoEntry>();
@@ -216,38 +288,81 @@ public class VideoManager : MonoBehaviour
 
     public void DisplayNextPlaceholder()
     {
-        VideoEntry nextVideoEntry = GetNextVideoEntry();
-        currentTextureIndex = UnityEngine.Random.Range(0, nextVideoEntry.placeholders.Count);
-
-        if (currentVideoEntry != null)
+        stupidCounter++;
+        if (!isSwipeUp)
         {
-            // Store both video entry and the index of the texture displayed
-            videoHistory.Push(new VideoHistoryEntry
+            int currentVideoClipIndex = UnityEngine.Random.Range(0, currentVideoEntry.videoClips.Count);
+            if (currentVideoEntry != null)
             {
-                videoEntry = currentVideoEntry,
-                textureIndex = currentTextureIndex
-        });
+                videoHistory.Push(new VideoHistoryEntry
+                {
+                    videoEntry = currentVideoEntry,
+                    videoClip = currentVideoPlayer.clip
+                });
+                Debug.Log("Store!");
+            }
+
+            SwapVideoPlayers();
+
+            currentVideoEntry = GetNextVideoEntry();
+
+            if (isCurrentVideoPlayer)
+            {
+                currentVideoPlayer.clip = currentVideoEntry.videoClips[currentVideoClipIndex];
+                currentVideoPlayer.Play();
+            }
+            else
+            {
+                nextVideoPlayer.clip = currentVideoEntry.videoClips[currentVideoClipIndex];
+                nextVideoPlayer.Play();
+            }
+
+            PrepareNextVideo();
         }
-
-        nextImageRectTransform.GetComponent<RawImage>().texture = nextVideoEntry.placeholders[currentTextureIndex];
+        isSwipeUp = false;
         StartCoroutine(SwipeTransition());
-
-        currentVideoEntry = nextVideoEntry;
-        // Store the texture index of the next video entry
-        // ...
     }
 
     public void DisplayPreviousPlaceholder()
     {
         if (videoHistory.Count > 0)
         {
+            stupidCounter++;
+            isSwipeUp = true;
             VideoHistoryEntry previousEntry = videoHistory.Pop();
-            currentImageRectTransform.GetComponent<RawImage>().texture = previousEntry.videoEntry.placeholders[previousEntry.textureIndex];
 
-            StartCoroutine(SwipeTransitionDown());
+            //SwapVideoPlayers();
+
             currentVideoEntry = previousEntry.videoEntry;
-            // Store the texture index of the previous video entry
-            // ...
+            //if (isCurrentVideoPlayer)
+            //{
+            //    currentVideoPlayer.clip = previousEntry.videoClip;
+            //    currentVideoPlayer.Play();
+            //}
+            //else
+            //{
+            //    nextVideoPlayer.clip = previousEntry.videoClip;
+            //    nextVideoPlayer.Play();
+            //}
+
+            //PrepareNextVideo();
+            StartCoroutine(SwipeTransitionDown());
+        }
+    }
+
+    private void SwapVideoPlayers()
+    {
+        if (isCurrentVideoPlayer)
+        {
+            var temp = currentVideoPlayer;
+            currentVideoPlayer = nextVideoPlayer;
+            nextVideoPlayer = temp;
+        }
+        else
+        {
+            var temp = nextVideoPlayer;
+            nextVideoPlayer = currentVideoPlayer;
+            currentVideoPlayer = temp;
         }
     }
 
@@ -295,6 +410,7 @@ public class VideoManager : MonoBehaviour
 
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
 
+        isLike = false;
         likeButtonImage.sprite = likeSprite;
 
         if (isMissFavoriteVideo == true)
@@ -371,5 +487,17 @@ public class VideoManager : MonoBehaviour
     void UpdateAnxiety()
     {
         anxietyBar.SetHealth(anxietyValue, maxAnxietyValue);
+    }
+
+    void GameWin()
+    {
+        gameStartSwipeController.WinLose();
+        winLosePanel.sprite = winLoseImages[0];
+    }
+
+    void GameLose()
+    {
+        gameStartSwipeController.WinLose();
+        winLosePanel.sprite = winLoseImages[1];
     }
 }

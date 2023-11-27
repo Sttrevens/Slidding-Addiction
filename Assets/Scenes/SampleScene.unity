@@ -418,41 +418,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPool:
   - category: 0
-    placeholders:
-    - {fileID: 2800000, guid: 7b9d9afcef0014d4883571672f33373a, type: 3}
-    - {fileID: 2800000, guid: d9adbef62b5d941bcbfb874cf9e2f559, type: 3}
-    - {fileID: 2800000, guid: eb42d6ade95d246daa0c1c425eede8f0, type: 3}
-    - {fileID: 2800000, guid: c2a13ea814028433f8ddd1494fc1dd99, type: 3}
-    - {fileID: 2800000, guid: ff251533766ce4121b5c3f3e7a750762, type: 3}
-    - {fileID: 2800000, guid: 88eb4acdff348401db153f13ff20d0a4, type: 3}
-    - {fileID: 2800000, guid: 044ccfba60ff045a6a2e91dbe5c3edce, type: 3}
-    - {fileID: 2800000, guid: d6941a17b83ed4c7db31f0e06b43d410, type: 3}
-    - {fileID: 2800000, guid: 6f9a15b53097d48e0b95e43eccb3ba4c, type: 3}
-    - {fileID: 2800000, guid: 0377aa383a6af427593fb06e0058699a, type: 3}
-    - {fileID: 2800000, guid: 187b5288a55a4475e8af0e532ff1dfae, type: 3}
-    - {fileID: 2800000, guid: 6ea288d060b234bef8cb774cc9efa182, type: 3}
+    videoClips:
+    - {fileID: 32900000, guid: 676e345cc35784921847839dad8c3709, type: 3}
+    - {fileID: 32900000, guid: b002a7d43c03d403c85eeb939dbeab24, type: 3}
+    - {fileID: 32900000, guid: a77f83ccdf7674fe2bd40b4d26990063, type: 3}
+    - {fileID: 32900000, guid: 25c108c151ed34240b377c003c561799, type: 3}
+    - {fileID: 32900000, guid: dc5c69a2edc564b70a25f4646db924b0, type: 3}
+    - {fileID: 32900000, guid: 11f31f2c510594b4da0711f7eeceb622, type: 3}
+    - {fileID: 32900000, guid: 7226541bc63c14c0b97def2b59c0b94a, type: 3}
+    - {fileID: 32900000, guid: 182bc8b2628834dc589f0bdd8af5d463, type: 3}
   - category: 1
-    placeholders:
-    - {fileID: 2800000, guid: b6a5fa2a5f65b41af85f2cbbdde31ff1, type: 3}
-    - {fileID: 2800000, guid: 1c5ebc5ad5d434168b14cabc19aba5e5, type: 3}
-    - {fileID: 2800000, guid: 48dcb3b5e21c54260919c6313b3aaa2d, type: 3}
-    - {fileID: 2800000, guid: 9364c29f8ff5c432f95878d4e03d77ac, type: 3}
-    - {fileID: 2800000, guid: 86b21d88a8f3e42588f0ed774fa30999, type: 3}
-    - {fileID: 2800000, guid: cca720326ab9a431088459d4783c7df9, type: 3}
-    - {fileID: 2800000, guid: c0b0b4a64e12241febe412c96803ea1b, type: 3}
-    - {fileID: 2800000, guid: bbf3a9c777a3a4b6b86105473122bb08, type: 3}
+    videoClips:
+    - {fileID: 32900000, guid: a9f2d9a9fcdb9403487fc44b0ccee51b, type: 3}
+    - {fileID: 32900000, guid: 43847b17583d04e439c8fafc16dc530c, type: 3}
+    - {fileID: 32900000, guid: 4e380025e1c3946acad35fa243d5c6bf, type: 3}
+    - {fileID: 32900000, guid: c649206b16131475da3de131b7423bc0, type: 3}
+    - {fileID: 32900000, guid: 7b63262f1377a4aa0bc3f1e38a329b5f, type: 3}
+    - {fileID: 32900000, guid: e6de2e7a6367b453f9f9f02fa45dbb71, type: 3}
+    - {fileID: 32900000, guid: 860233f3d6cfb4eaabf43968675b804c, type: 3}
+    - {fileID: 32900000, guid: 48cce6a9b7211492999a6ebbeaaad5fd, type: 3}
+    - {fileID: 32900000, guid: 19cfca9c1cb744fb8a92088bca80511e, type: 3}
+    - {fileID: 32900000, guid: 93ced935fbf584924bc5bff39af2f0c0, type: 3}
   - category: 2
-    placeholders:
-    - {fileID: 2800000, guid: e3d6bf28e01ea4aeaa604f1294eccabd, type: 3}
-    - {fileID: 2800000, guid: 85bee580479544ab99ff666a60def100, type: 3}
-    - {fileID: 2800000, guid: bb74165dfbc8c4850bf6c5a150a19df9, type: 3}
-    - {fileID: 2800000, guid: e5ab30aa4b1e54c8185a62b7ecb7f606, type: 3}
-    - {fileID: 2800000, guid: 7cb999f5732554d92a479cb9eeb6d20e, type: 3}
-    - {fileID: 2800000, guid: d2d8706322b074e73af27dc93b5be96a, type: 3}
-    - {fileID: 2800000, guid: 32cf8a79aba4d490b9829af52607684f, type: 3}
-    - {fileID: 2800000, guid: 64fa3edf8e22a4cda95d67973b1ec1e9, type: 3}
-    - {fileID: 2800000, guid: bc49a4263655949719935e3594061a1f, type: 3}
-    - {fileID: 2800000, guid: cf181ca5d258442fca934aa3d71ff5fd, type: 3}
+    videoClips:
+    - {fileID: 32900000, guid: 4f219892a066541de861532fe8e21cde, type: 3}
+    - {fileID: 32900000, guid: 16c91435419964bbbb5bb43d810d299d, type: 3}
+    - {fileID: 32900000, guid: c40818ae0d58b4673bb9f0f3fd9722b1, type: 3}
+    - {fileID: 32900000, guid: 61697c265a0764672b98e3246c6813c1, type: 3}
+    - {fileID: 32900000, guid: 20df861eaec8c4748afa8d1645878aab, type: 3}
+    - {fileID: 32900000, guid: 72268be86cbbc4455834d2a7bba8864d, type: 3}
+    - {fileID: 32900000, guid: e619dcf2cda994094b766f6e886291a1, type: 3}
+    - {fileID: 32900000, guid: 5d14fcf4c6d524fbfba3a17910c4ba8d, type: 3}
+    - {fileID: 32900000, guid: b2c5c8424c6fb44e6aa1038fb86e0f45, type: 3}
+    - {fileID: 32900000, guid: 29b38152964554355a257f97e2eadebc, type: 3}
+    - {fileID: 32900000, guid: 775c6fe9dc5ec4d95a408dabf883ef9d, type: 3}
+    - {fileID: 32900000, guid: 7896e585694a64a68b62db03da133cd5, type: 3}
   displayImage: {fileID: 0}
   currentImageRectTransform: {fileID: 610234714}
   nextImageRectTransform: {fileID: 439935548}
@@ -466,6 +466,13 @@ MonoBehaviour:
   anxietyBar: {fileID: 1102897761}
   isOnTable: 0
   favoriteCategoryClass: {fileID: 1110196189}
+  currentVideoPlayer: {fileID: 610234724}
+  nextVideoPlayer: {fileID: 439935557}
+  gameStartSwipeController: {fileID: 609657123}
+  winLosePanel: {fileID: 1242125199}
+  winLoseImages:
+  - {fileID: 21300000, guid: e241cb9e4ca874bdea8270a3c03e161f, type: 3}
+  - {fileID: 21300000, guid: b3bd5952de32244a48ee9a3bf265645c, type: 3}
 --- !u!1 &220630941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,7 +1033,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 8400000, guid: 4a8f16eafb3a3489d8ddb72ebd0c098c, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1045,16 +1052,16 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 0fe9b3787cd8742e58a1c8c63f47a663, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 4a8f16eafb3a3489d8ddb72ebd0c098c, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
-  m_AspectRatio: 2
+  m_AspectRatio: 5
   m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
+  m_AudioOutputMode: 0
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
@@ -1065,7 +1072,7 @@ VideoPlayer:
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
-  m_Looping: 0
+  m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
@@ -1360,7 +1367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -140, y: 0}
+  m_AnchoredPosition: {x: -140, y: -9.8}
   m_SizeDelta: {x: 38, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579873595
@@ -1585,10 +1592,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 252737505}
   - {fileID: 898627134}
   - {fileID: 1580936353}
   - {fileID: 762152313}
-  - {fileID: 252737505}
+  - {fileID: 1242125198}
+  - {fileID: 1243123030}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1611,6 +1620,8 @@ MonoBehaviour:
   menuScreen: {fileID: 762152313}
   goalImageScreen: {fileID: 1580936353}
   gameScreen: {fileID: 898627134}
+  winLoseScreen: {fileID: 1242125198}
+  commentScreen: {fileID: 1243123030}
   gameStartScreen: {fileID: 375933323}
   nextVideoPlaceholder: {fileID: 439935547}
   transitDuration: 0.5
@@ -1638,8 +1649,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  commentPanelSwingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   minSwipeLength: 30
   screenHeight: 2530
+  isCommentOpened: 0
 --- !u!1 &610234713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,6 +1787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSwipeLength: 5
   videoManager: {fileID: 220281163}
+  gameStartSwipeController: {fileID: 609657123}
 --- !u!114 &610234719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,7 +1912,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 8400000, guid: 0fe9b3787cd8742e58a1c8c63f47a663, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1899,11 +1936,11 @@ VideoPlayer:
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
-  m_AspectRatio: 2
+  m_AspectRatio: 5
   m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
+  m_AudioOutputMode: 0
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
@@ -1914,7 +1951,7 @@ VideoPlayer:
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
-  m_Looping: 0
+  m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
@@ -2368,9 +2405,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoManager: {fileID: 220281163}
   favoriteCategory: {fileID: 1110196189}
-  categoryASprite: {fileID: 21300000, guid: 49b3942129cd64933ab47e24d7ab5f97, type: 3}
-  categoryBSprite: {fileID: 21300000, guid: 888c6a7885e4d419cb466589f4175f77, type: 3}
-  categoryCSprite: {fileID: 21300000, guid: f48a54efc744244579c83a9f2923acb4, type: 3}
+  categoryASprite: {fileID: 21300000, guid: 888c6a7885e4d419cb466589f4175f77, type: 3}
+  categoryBSprite: {fileID: 21300000, guid: f48a54efc744244579c83a9f2923acb4, type: 3}
+  categoryCSprite: {fileID: 21300000, guid: 49b3942129cd64933ab47e24d7ab5f97, type: 3}
 --- !u!114 &1110196189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2424,8 +2461,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a598223438f004193a8a5d47bf088605, type: 2}
+  m_sharedMaterial: {fileID: -7774266406337746729, guid: a598223438f004193a8a5d47bf088605, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2516,9 +2553,177 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -903, y: -87}
+  m_AnchoredPosition: {x: -903, y: -75.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1242125197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1242125198}
+  - component: {fileID: 1242125200}
+  - component: {fileID: 1242125199}
+  m_Layer: 5
+  m_Name: WinLosePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1242125198
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242125197}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 609657122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -7590}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1242125199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242125197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e241cb9e4ca874bdea8270a3c03e161f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1242125200
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242125197}
+  m_CullTransparentMesh: 1
+--- !u!1 &1243123029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1243123030}
+  - component: {fileID: 1243123032}
+  - component: {fileID: 1243123031}
+  - component: {fileID: 1243123033}
+  m_Layer: 5
+  m_Name: CommentPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1243123030
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243123029}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 609657122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -7590}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1243123031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243123029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: fd71938b760be40bbbfab1f58761156f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1243123032
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243123029}
+  m_CullTransparentMesh: 1
+--- !u!114 &1243123033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243123029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d060ec6841b4acc8c9641dbb158e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoManager: {fileID: 220281163}
+  favoriteCategory: {fileID: 1110196189}
+  categoryASprite: {fileID: 21300000, guid: 411e3f94d118e48de853b5ac50f63284, type: 3}
+  categoryBSprite: {fileID: 21300000, guid: fd71938b760be40bbbfab1f58761156f, type: 3}
+  categoryCSprite: {fileID: 21300000, guid: be451f32efaaf462091d592eba8d647b, type: 3}
 --- !u!1 &1580936352
 GameObject:
   m_ObjectHideFlags: 0
@@ -3000,6 +3205,7 @@ GameObject:
   - component: {fileID: 1992431374}
   - component: {fileID: 1992431376}
   - component: {fileID: 1992431375}
+  - component: {fileID: 1992431377}
   m_Layer: 5
   m_Name: CommenButton
   m_TagString: Untagged
@@ -3064,6 +3270,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992431373}
   m_CullTransparentMesh: 1
+--- !u!114 &1992431377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992431373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1992431375}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 609657123}
+        m_TargetAssemblyTypeName: GameStartSwipeController, Assembly-CSharp
+        m_MethodName: OpenComment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2067066079
 GameObject:
   m_ObjectHideFlags: 0
@@ -3191,9 +3453,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoManager: {fileID: 220281163}
   favoriteCategory: {fileID: 1110196189}
-  categoryASprite: {fileID: 21300000, guid: 990abd38403d645938b4010774ae9dad, type: 3}
-  categoryBSprite: {fileID: 21300000, guid: 09e73b661b64a43db8a42e7ea9e20f56, type: 3}
-  categoryCSprite: {fileID: 21300000, guid: 2cc542edb4f3e46cc8738f4492f65ad7, type: 3}
+  categoryASprite: {fileID: 21300000, guid: 09e73b661b64a43db8a42e7ea9e20f56, type: 3}
+  categoryBSprite: {fileID: 21300000, guid: 3000d138c4ce344fb9a982f48698d594, type: 3}
+  categoryCSprite: {fileID: 21300000, guid: 990abd38403d645938b4010774ae9dad, type: 3}
 --- !u!1 &2145125540
 GameObject:
   m_ObjectHideFlags: 0

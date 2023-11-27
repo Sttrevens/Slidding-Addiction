@@ -7,6 +7,8 @@ public class GameStartSwipeController : MonoBehaviour
     public RectTransform menuScreen;
     public RectTransform goalImageScreen;
     public RectTransform gameScreen;
+    public RectTransform winLoseScreen;
+    public RectTransform commentScreen;
 
     public GameObject gameStartScreen;
     public GameObject nextVideoPlaceholder;
@@ -16,6 +18,7 @@ public class GameStartSwipeController : MonoBehaviour
     private int currentScreen = 0;
 
     public AnimationCurve swingCurve;
+    public AnimationCurve commentPanelSwingCurve;
 
     private Vector2 startTouchPosition;
     private Vector2 currentSwipe;
@@ -24,6 +27,8 @@ public class GameStartSwipeController : MonoBehaviour
     public float minSwipeLength = 30f;
 
     public float screenHeight = 2530f;
+
+    public bool isCommentOpened = false;
 
     void Update()
     {
@@ -50,6 +55,8 @@ public class GameStartSwipeController : MonoBehaviour
             StartCoroutine(MovePanel(menuScreen, screenHeight));
             StartCoroutine(MovePanel(goalImageScreen, screenHeight));
             StartCoroutine(MovePanel(gameScreen, screenHeight));
+            StartCoroutine(MovePanel(winLoseScreen, screenHeight));
+            StartCoroutine(MoveCommentPanel(commentScreen, screenHeight));
             currentScreen++;
         }
         else if (currentScreen == 1)
@@ -58,6 +65,8 @@ public class GameStartSwipeController : MonoBehaviour
             StartCoroutine(MovePanel(menuScreen, screenHeight));
             StartCoroutine(MovePanel(goalImageScreen, screenHeight));
             StartCoroutine(MovePanel(gameScreen, screenHeight));
+            StartCoroutine(MovePanel(winLoseScreen, screenHeight));
+            StartCoroutine(MoveCommentPanel(commentScreen, screenHeight));
             currentScreen++;
         }
     }
@@ -73,6 +82,44 @@ public class GameStartSwipeController : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float curveValue = swingCurve.Evaluate(elapsed / duration);
+            panel.anchoredPosition = Vector2.LerpUnclamped(startPosition, endPosition, curveValue);
+            yield return null;
+        }
+
+        // Ensure the panel is exactly at the end position when done
+        panel.anchoredPosition = endPosition;
+    }
+
+    IEnumerator MoveCommentPanel(RectTransform panel, float newY)
+    {
+        float duration = 0.25f;
+        float elapsed = 0;
+        Vector2 startPosition = panel.anchoredPosition;
+        Vector2 endPosition = new Vector2(startPosition.x, startPosition.y + newY);
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float curveValue = commentPanelSwingCurve.Evaluate(elapsed / duration);
+            panel.anchoredPosition = Vector2.LerpUnclamped(startPosition, endPosition, curveValue);
+            yield return null;
+        }
+
+        // Ensure the panel is exactly at the end position when done
+        panel.anchoredPosition = endPosition;
+    }
+
+    IEnumerator MoveCommentPanelDown(RectTransform panel, float newY)
+    {
+        float duration = 0.25f;
+        float elapsed = 0;
+        Vector2 startPosition = panel.anchoredPosition;
+        Vector2 endPosition = new Vector2(startPosition.x, startPosition.y - newY);
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float curveValue = commentPanelSwingCurve.Evaluate(elapsed / duration);
             panel.anchoredPosition = Vector2.LerpUnclamped(startPosition, endPosition, curveValue);
             yield return null;
         }
@@ -128,5 +175,28 @@ public class GameStartSwipeController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OpenComment()
+    {
+        if (!isCommentOpened)
+        {
+            StartCoroutine(MoveCommentPanel(commentScreen, screenHeight));
+            isCommentOpened = true;
+        }
+        else
+        {
+            StartCoroutine(MoveCommentPanelDown(commentScreen, screenHeight));
+            isCommentOpened = false;
+        }
+    }
+
+    public void WinLose()
+    {
+        gameStartScreen.SetActive(false);
+        StartCoroutine(MovePanel(menuScreen, screenHeight));
+        StartCoroutine(MovePanel(goalImageScreen, screenHeight));
+        StartCoroutine(MovePanel(gameScreen, screenHeight));
+        StartCoroutine(MovePanel(winLoseScreen, screenHeight));
     }
 }

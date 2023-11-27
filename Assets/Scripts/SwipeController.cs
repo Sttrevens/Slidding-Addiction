@@ -9,6 +9,8 @@ public class SwipeController : MonoBehaviour
     public float minSwipeLength = 30f;
     public VideoManager videoManager;
 
+    public GameStartSwipeController gameStartSwipeController;
+
     void Update()
     {
         StartSwipe();
@@ -16,14 +18,28 @@ public class SwipeController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Debug.Log("Simulate swipe up");
-            videoManager.DisplayNextPlaceholder();
+            if (!gameStartSwipeController.isCommentOpened)
+            {
+                Debug.Log("Simulate swipe up");
+                videoManager.DisplayNextPlaceholder();
+            }
+            else
+            {
+
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            Debug.Log("Simulate swipe down");
-            videoManager.DisplayPreviousPlaceholder();
+            if (!gameStartSwipeController.isCommentOpened)
+            {
+                Debug.Log("Simulate swipe down");
+                videoManager.DisplayPreviousPlaceholder();
+            }
+            else
+            {
+                gameStartSwipeController.OpenComment();
+            }
         }
     }
 
@@ -56,13 +72,27 @@ public class SwipeController : MonoBehaviour
                 {
                     if (currentSwipe.y > 0)
                     {
-                        Debug.Log("Swipe Up");
-                        videoManager.DisplayNextPlaceholder();
+                        if (!gameStartSwipeController.isCommentOpened)
+                        {
+                            Debug.Log("Swipe Up");
+                            videoManager.DisplayNextPlaceholder();
+                        }
+                        else
+                        {
+
+                        }
                     }
                     else if (currentSwipe.y < 0)
                     {
-                        Debug.Log("Swipe Down");
-                        videoManager.DisplayPreviousPlaceholder();
+                        if (!gameStartSwipeController.isCommentOpened)
+                        {
+                            Debug.Log("Swipe Down");
+                            videoManager.DisplayPreviousPlaceholder();
+                        }
+                        else
+                        {
+                            gameStartSwipeController.OpenComment();
+                        }
                     }
                 }
             }
