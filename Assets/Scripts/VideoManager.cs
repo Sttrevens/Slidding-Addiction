@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using static Readme;
 
 public enum VideoCategory
 {
@@ -119,9 +120,16 @@ public class VideoManager : MonoBehaviour
 
     private void PrepareNextVideo()
     {
-        VideoEntry nextVideoEntry = GetNextVideoEntry();
-        nextVideoPlayer.clip = nextVideoEntry.videoClips[UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count)];
-        nextVideoPlayer.Prepare();
+        VideoEntry nextVideoEntry;
+        do
+        {
+            nextVideoEntry = GetNextVideoEntry();
+        }
+        while (nextVideoEntry == currentVideoEntry); // Ensure the next video is not the same as the current one
+
+        int nextVideoClipIndex = UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count);
+        nextVideoPlayer.clip = nextVideoEntry.videoClips[nextVideoClipIndex];
+        nextVideoPlayer.Prepare(); // Preload the video
     }
 
     private void InitializeValues()
@@ -165,7 +173,7 @@ public class VideoManager : MonoBehaviour
                 }
             }
 
-            if (anxietyValue > maxAnxietyValue)
+            if (anxietyValue >= maxAnxietyValue)
             {
                 anxietyValue = maxAnxietyValue;
                 GameLose();
@@ -192,18 +200,18 @@ public class VideoManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Is Current Video Player:" + isCurrentVideoPlayer);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (isEndGame)
+        if ((Input.GetMouseButtonDown(0)) && isEndGame)
         {
             // Restart the scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             return;
         }
 
+        Debug.Log("Is Current Video Player:" + isCurrentVideoPlayer);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
         if (eventData.clickCount == 2 && Time.time - lastTapTime < tapTimeThreshold)
         {
             LikeCurrentVideo();
@@ -273,48 +281,50 @@ public class VideoManager : MonoBehaviour
 
     public void DisplayNextPlaceholder()
     {
-        stupidCounter++;
-        if (!isSwipeUp)
+        if (currentVideoEntry != null)
         {
-            if (currentVideoEntry != null)
+            videoHistory.Push(new VideoHistoryEntry
             {
-                videoHistory.Push(new VideoHistoryEntry
-                {
-                    videoEntry = currentVideoEntry,
-                    videoClip = currentVideoPlayer.clip
-                });
-                Debug.Log("Store!");
-            }
+                videoEntry = currentVideoEntry,
+                videoClip = currentVideoPlayer.clip
+            });
+        }
 
+        // Start the swipe transition
+        StartCoroutine(SwipeTransition(() => {
+            // This code will run after the swipe transition is complete
+
+            // Swap video players
             SwapVideoPlayers();
 
-            currentVideoEntry = GetNextVideoEntry();
-
-            //if (!isCurrentVideoPlayer)
-            //{
-            currentVideoPlayer.clip = currentVideoEntry.videoClips[UnityEngine.Random.Range(0, currentVideoEntry.videoClips.Count)];
+            // Play the preloaded video
             currentVideoPlayer.Play();
 
+            // Prepare the next video
             PrepareNextVideo();
-        }
-        isSwipeUp = false;
-        StartCoroutine(SwipeTransition());
+        }));
     }
 
     public void DisplayPreviousPlaceholder()
     {
         if (videoHistory.Count > 0)
         {
-            stupidCounter++;
-            isSwipeUp = true;
             VideoHistoryEntry previousEntry = videoHistory.Pop();
 
-            SwapVideoPlayers();
+            // Start the swipe transition
+            StartCoroutine(SwipeTransitionDown(() => {
+                // This code will run after the swipe transition is complete
 
-            currentVideoEntry = previousEntry.videoEntry;
-            currentVideoPlayer.clip = previousEntry.videoClip;
-            currentVideoPlayer.Play();
-            StartCoroutine(SwipeTransitionDown());
+                // Swap video players
+                SwapVideoPlayers();
+
+                // Play the previous video
+                currentVideoPlayer.clip = previousEntry.videoClip;
+                currentVideoPlayer.Play();
+
+                // Prepare the next video
+                PrepareNextVideo();
+            }));
         }
     }
 
@@ -331,7 +341,7 @@ public class VideoManager : MonoBehaviour
         return currentVideoEntry.category;
     }
 
-    IEnumerator SwipeTransition()
+    IEnumerator SwipeTransition(Action onTransitionComplete)
     {
         //currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
         //nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
@@ -386,9 +396,11 @@ public class VideoManager : MonoBehaviour
         {
             isMissFavoriteVideo = true;
         }
+
+        onTransitionComplete?.Invoke();
     }
 
-    IEnumerator SwipeTransitionDown()
+    IEnumerator SwipeTransitionDown(Action onTransitionComplete)
     {
         // Disable interaction during the transition
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
@@ -434,6 +446,8 @@ public class VideoManager : MonoBehaviour
         currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
 
         likeButtonImage.sprite = likeSprite;
+
+        onTransitionComplete?.Invoke();
     }
 
 

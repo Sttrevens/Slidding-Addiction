@@ -456,7 +456,7 @@ MonoBehaviour:
   displayImage: {fileID: 0}
   currentImageRectTransform: {fileID: 610234714}
   nextImageRectTransform: {fileID: 439935548}
-  swipeSpeed: 3
+  swipeSpeed: 5
   likeButtonImage: {fileID: 1607368391}
   likeSprite: {fileID: 21300000, guid: 567f288c26e8b444d986fa579dc2491f, type: 3}
   likedSprite: {fileID: 21300000, guid: 9db357f405e044fe0941ef94e6707aa2, type: 3}
