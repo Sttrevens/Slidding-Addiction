@@ -178,7 +178,7 @@ public class VideoManager : MonoBehaviour
                 anxietyValue = 0;
             }
 
-            if (happinessValue > maxHappinessValue)
+            if (happinessValue >= maxHappinessValue)
             {
                 happinessValue = maxHappinessValue;
                 GameWin();
