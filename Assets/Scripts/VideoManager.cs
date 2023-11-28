@@ -120,8 +120,8 @@ public class VideoManager : MonoBehaviour
     private void PrepareNextVideo()
     {
         VideoEntry nextVideoEntry = GetNextVideoEntry();
-            nextVideoPlayer.clip = nextVideoEntry.videoClips[UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count)];
-            nextVideoPlayer.Prepare();
+        nextVideoPlayer.clip = nextVideoEntry.videoClips[UnityEngine.Random.Range(0, nextVideoEntry.videoClips.Count)];
+        nextVideoPlayer.Prepare();
     }
 
     private void InitializeValues()
@@ -333,8 +333,8 @@ public class VideoManager : MonoBehaviour
 
     IEnumerator SwipeTransition()
     {
-        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
-        nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+        //currentImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
+        //nextImageRectTransform.GetComponent<RawImage>().raycastTarget = false;
 
         float duration = 1f / swipeSpeed;
         float elapsed = 0f;
@@ -367,7 +367,7 @@ public class VideoManager : MonoBehaviour
         currentImageRectTransform = nextImageRectTransform;
         nextImageRectTransform = tempRectTransform;
 
-        currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
+        //currentImageRectTransform.GetComponent<RawImage>().raycastTarget = true;
 
         isLike = false;
         likeButtonImage.sprite = likeSprite;
