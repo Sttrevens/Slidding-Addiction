@@ -7,6 +7,7 @@ using System;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using static Readme;
+using System.Linq;
 
 public enum VideoCategory
 {
@@ -101,8 +102,8 @@ public class VideoManager : MonoBehaviour
 
         currentVideoEntry = firstVideoEntry;
 
-        // Load the next video in the background
         PrepareNextVideo();
+        DisplayNextPlaceholder();
 
         // Initialize values and favorite category
         InitializeValues();
@@ -290,17 +291,13 @@ public class VideoManager : MonoBehaviour
             });
         }
 
-        // Start the swipe transition
         StartCoroutine(SwipeTransition(() => {
-            // This code will run after the swipe transition is complete
-
-            // Swap video players
             SwapVideoPlayers();
 
-            // Play the preloaded video
-            currentVideoPlayer.Play();
+            // Find the VideoEntry that contains the clip currently playing
+            currentVideoEntry = videoPool.FirstOrDefault(entry => entry.videoClips.Contains(currentVideoPlayer.clip));
 
-            // Prepare the next video
+            currentVideoPlayer.Play();
             PrepareNextVideo();
         }));
     }
@@ -311,18 +308,15 @@ public class VideoManager : MonoBehaviour
         {
             VideoHistoryEntry previousEntry = videoHistory.Pop();
 
-            // Start the swipe transition
             StartCoroutine(SwipeTransitionDown(() => {
-                // This code will run after the swipe transition is complete
-
-                // Swap video players
                 SwapVideoPlayers();
 
-                // Play the previous video
                 currentVideoPlayer.clip = previousEntry.videoClip;
                 currentVideoPlayer.Play();
 
-                // Prepare the next video
+                // Find the VideoEntry that contains the clip currently playing
+                currentVideoEntry = videoPool.FirstOrDefault(entry => entry.videoClips.Contains(currentVideoPlayer.clip));
+
                 PrepareNextVideo();
             }));
         }
